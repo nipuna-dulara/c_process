@@ -53,15 +53,35 @@ void execute_command(char *command)
 
 int main(int argc, char *argv[])
 {
-    if (argc != 2)
+    if (argc < 2)
     {
+        printf("Usage: %s <arguments>\n", argv[0]);
         exit(1);
     }
+    char input[MAX_ARG_LEN] = "";
+    for (int i = 1; i < argc; i++)
+    {
+        if (strlen(input) + strlen(argv[i]) + 1 < MAX_ARG_LEN)
+        {
+            strcat(input, argv[i]);
+            if (i < argc - 1)
+            {
+                strcat(input, " ");
+            }
+        }
+        else
+        {
+            printf("Error: Combined arguments exceed buffer size.\n");
+            exit(1);
+        }
+    }
 
-    char input[MAX_ARG_LEN];
-    strncpy(input, argv[1], MAX_ARG_LEN);
+    printf("Combined input: %s\n", input);
 
-    input[MAX_ARG_LEN - 1] = '\0';
+    // char input[MAX_ARG_LEN];
+    // strncpy(input, argv[1], MAX_ARG_LEN);
+
+    // input[MAX_ARG_LEN - 1] = '\0';
 
     char *command = strtok(input, "+");
 
